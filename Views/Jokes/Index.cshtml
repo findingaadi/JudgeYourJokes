@@ -1,0 +1,26 @@
+﻿@model IEnumerable<JudgeYourJokes.Models.Jokes>
+@{
+	ViewData["Title"] = "Jokes List";
+}
+
+<h2> All Jokes </h2>
+
+<Table>
+	<tr>
+		<th>Title</th>
+		<th>Joke</th>
+		<th>User</th>
+		<th>Votes</th>
+		<th>Date</th>
+	</tr>
+@foreach (var joke in Model)
+{
+	<tr>
+		<td>@joke.JokeTitle</td>
+		<td>@joke.JokeDescription</td>
+		<td>@joke.UserID</td>
+		<td>@joke.Votes</td>
+		<td>@joke.Date.ToShortDateString()</td>
+	</tr>
+}
+</Table>
