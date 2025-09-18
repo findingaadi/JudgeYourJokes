@@ -1,0 +1,15 @@
+﻿@model JudgeYourJokes.Models.Jokes
+
+<h2>Add a New Joke</h2>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label asp-for="JokeTitle"></label>
+        <input asp-for="JokeTitle" />
+    </div>
+    <div>
+        <label asp-for="JokeDescription"></label>
+        <textarea asp-for="JokeDescription"></textarea>
+    </div>
+    <button type="submit">Add Joke</button>
+</form>
