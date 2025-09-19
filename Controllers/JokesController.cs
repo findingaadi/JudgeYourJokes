@@ -22,7 +22,7 @@ namespace JudgeYourJokes.Controllers
 
         public IActionResult Index()
         {
-            var jokes = _context.Jokes.ToList();
+            var jokes = _context.Jokes.Include(j => j.User).ToList();
             return View(jokes);
         }
 

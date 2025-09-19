@@ -12,15 +12,17 @@
 		<th>User</th>
 		<th>Votes</th>
 		<th>Date</th>
+		<th>Vote</th>
 	</tr>
 @foreach (var joke in Model)
 {
 	<tr>
 		<td>@joke.JokeTitle</td>
 		<td>@joke.JokeDescription</td>
-		<td>@joke.UserID</td>
+		<td>@(joke.User?.UserName ?? "Unknown")</td>
 		<td>@joke.Votes</td>
 		<td>@joke.Date.ToShortDateString()</td>
+		<td><!-- to add a button to vote here--></td>
 	</tr>
 }
 </Table>
