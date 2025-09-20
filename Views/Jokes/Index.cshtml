@@ -22,7 +22,10 @@
 		<td>@(joke.User?.UserName ?? "Unknown")</td>
 		<td>@joke.Votes</td>
 		<td>@joke.Date.ToShortDateString()</td>
-		<td><!-- to add a button to vote here--></td>
+		<td>    <form asp-action="Upvote" asp-route-id="@joke.Id" method="post" style="display:inline">
+					<button type="submit">Upvote</button>
+				</form>
+		</td>
 	</tr>
 }
 </Table>
