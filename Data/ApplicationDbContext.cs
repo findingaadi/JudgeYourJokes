@@ -11,5 +11,7 @@ namespace JudgeYourJokes.Data
         {
         }
         public DbSet<Jokes> Jokes { get; set; }
+        public DbSet<Vote> Votes { get; set; }
+
     }
 }

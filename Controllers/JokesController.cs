@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using JudgeYourJokes.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 
@@ -53,13 +52,29 @@ namespace JudgeYourJokes.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upvote(int id)
         {
-            var joke = await _context.Jokes.FindAsync(id);
-            if (joke != null)
-            {
-                joke.Votes += 1; 
-                await _context.SaveChangesAsync();
+            var userId = _userManager.GetUserId(User);
+
+            bool alreadyVoted = _context.Votes.Any(v => v.JokeId == id && v.UserId == userId);
+
+            if (!alreadyVoted)
+            { 
+                var joke = await _context.Jokes.FindAsync(id);
+                if (joke != null)
+                {
+                    joke.Votes += 1;
+                    var vote = new Vote
+                    {
+                        JokeId = id,
+                        UserId = userId
+                    };
+                    _context.Votes.Add(vote);
+
+                    await _context.SaveChangesAsync();
+                }
             }
             return RedirectToAction(nameof(Index));
         }
+
+
     }
 }
