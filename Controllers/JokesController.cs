@@ -47,5 +47,19 @@ namespace JudgeYourJokes.Controllers
            await _context.SaveChangesAsync();
            return RedirectToAction(nameof(Index));
         }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Upvote(int id)
+        {
+            var joke = await _context.Jokes.FindAsync(id);
+            if (joke != null)
+            {
+                joke.Votes += 1; 
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
