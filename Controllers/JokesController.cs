@@ -54,27 +54,24 @@ namespace JudgeYourJokes.Controllers
         {
             var userId = _userManager.GetUserId(User);
 
-            bool alreadyVoted = _context.Votes.Any(v => v.JokeId == id && v.UserId == userId);
+            var vote = _context.Votes.FirstOrDefault(v => v.JokeId == id && v.UserId == userId);
 
-            if (!alreadyVoted)
-            { 
-                var joke = await _context.Jokes.FindAsync(id);
-                if (joke != null)
-                {
-                    joke.Votes += 1;
-                    var vote = new Vote
-                    {
-                        JokeId = id,
-                        UserId = userId
-                    };
-                    _context.Votes.Add(vote);
+            var joke = await _context.Jokes.FindAsync(id);
 
-                    await _context.SaveChangesAsync();
-                }
+            if (vote == null && joke != null)
+            {
+                joke.Votes += 1;
+                _context.Votes.Add(new Vote { JokeId = id, UserId = userId });
             }
+            else if (vote != null && joke != null)
+            {
+                joke.Votes -= 1;
+                _context.Votes.Remove(vote);
+            }
+
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
 
     }
 }
