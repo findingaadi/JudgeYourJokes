@@ -12,7 +12,7 @@
 		<th>User</th>
 		<th>Votes</th>
 		<th>Date</th>
-		<th>Vote</th>
+		<th>Update</th>
 	</tr>
 @foreach (var joke in Model)
 {
@@ -24,6 +24,7 @@
 		<td>@joke.Date.ToShortDateString()</td>
 		<td>
 			<a asp-action="Edit" asp-route-id="@joke.Id">Edit</a>
+			<a asp-action="Delete" asp-route-id="@joke.Id">Delete</a>
 		</td>
 	</tr>
 }

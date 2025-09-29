@@ -119,6 +119,34 @@ namespace JudgeYourJokes.Controllers
             return View(jokes);
         }
 
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+            var joke = await _context.Jokes.FirstOrDefaultAsync(j => j.Id == id && j.UserID == userId);
+            if (joke == null)
+            {
+                return NotFound();
+            }
+            return View(joke);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+            var joke = await _context.Jokes.FirstOrDefaultAsync(j => j.Id == id && j.UserID == userId);
+            if (joke == null)
+            {
+                return NotFound();
+            }
+            _context.Jokes.Remove(joke);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(MyJokes));
+        }
+
     }
 
 }

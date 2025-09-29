@@ -1,0 +1,13 @@
+﻿@model JudgeYourJokes.Models.Jokes
+
+<h2>Delete Joke</h2>
+<div>
+    <h4>Are you sure you want to delete this joke?</h4>
+    <p><strong>@Model.JokeTitle</strong></p>
+    <p>@Model.JokeDescription</p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit">Yes, Delete</button>
+        <a asp-action="MyJokes">Cancel</a>
+    </form>
+</div>
