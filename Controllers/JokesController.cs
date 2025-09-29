@@ -73,5 +73,52 @@ namespace JudgeYourJokes.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Jokes/Edit/5
+        [Authorize]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+            var joke = await _context.Jokes.FirstOrDefaultAsync(j => j.Id == id && j.UserID == userId);
+            if (joke == null)
+            {
+                return NotFound();
+            }
+            return View(joke);
+        }
+
+        // POST: Jokes/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> Edit(int id, Jokes editedJoke)
+        {
+            var userId = _userManager.GetUserId(User);
+            var joke = await _context.Jokes.FirstOrDefaultAsync(j => j.Id == id && j.UserID == userId);
+            if (joke == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                joke.JokeTitle = editedJoke.JokeTitle;
+                joke.JokeDescription = editedJoke.JokeDescription;
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(MyJokes));
+            }
+            return View(editedJoke);
+        }
+
+        [Authorize]
+        public IActionResult MyJokes()
+        {
+            var userId = _userManager.GetUserId(User);
+            var jokes = _context.Jokes
+                .Where(j => j.UserID == userId)
+                .ToList();
+            return View(jokes);
+        }
+
     }
+
 }

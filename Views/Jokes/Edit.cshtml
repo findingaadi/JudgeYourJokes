@@ -1,0 +1,16 @@
+﻿@model JudgeYourJokes.Models.Jokes
+
+<h2>Edit Joke</h2>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div>
+        <label asp-for="JokeTitle"></label>
+        <input asp-for="JokeTitle" />
+    </div>
+    <div>
+        <label asp-for="JokeDescription"></label>
+        <textarea asp-for="JokeDescription"></textarea>
+    </div>
+    <button type="submit">Save Changes</button>
+    <a asp-action="MyJokes">Cancel</a>
+</form>

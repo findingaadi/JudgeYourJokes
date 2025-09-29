@@ -1,0 +1,30 @@
+﻿@model IEnumerable<JudgeYourJokes.Models.Jokes>
+@{
+	ViewData["Title"] = "My Jokes";
+}
+
+<h2> My Jokes </h2>
+
+<Table>
+	<tr>
+		<th>Title</th>
+		<th>Joke</th>
+		<th>User</th>
+		<th>Votes</th>
+		<th>Date</th>
+		<th>Vote</th>
+	</tr>
+@foreach (var joke in Model)
+{
+	<tr>
+		<td>@joke.JokeTitle</td>
+		<td>@joke.JokeDescription</td>
+		<td>@(joke.User?.UserName ?? "Unknown")</td>
+		<td>@joke.Votes</td>
+		<td>@joke.Date.ToShortDateString()</td>
+		<td>
+			<a asp-action="Edit" asp-route-id="@joke.Id">Edit</a>
+		</td>
+	</tr>
+}
+</Table>
